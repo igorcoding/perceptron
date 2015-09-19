@@ -1,0 +1,23 @@
+html, body {
+
+}
+
+.main-container {
+    //background-color: #f7ffa6;
+}
+
+.workplace-window {
+
+}
+
+.settings-window {
+    border-left: solid #cacaca 1px;
+
+    &__title {
+        font-weight: bolder;
+    }
+
+    &__config {
+        padding: 0 15px;
+    }
+}
