@@ -6,7 +6,8 @@ require.config({
         lodash: "lib/lodash.min",
         fileinput: "lib/fileinput.min",
         tagsinput: "lib/bootstrap-tagsinput",
-        prototype: "lib/prototype"
+        prototype: "lib/prototype",
+        signals: "lib/signals.min"
     },
     shim: {
         'jquery': {
@@ -29,18 +30,34 @@ require.config({
         },
         prototype: {
             exports: 'Prototype'
+        },
+        signals: {
+            exports: 'signals'
         }
     }
 });
 
-define('main', ['jquery' ,'objects/conf/PerceptronModelConfig', 'objects/Field'], function($, PerceptronModelConfig, Field) {
+define(function(require) {
+    var $ = require('jquery');
+
+    var PerceptronModelConfig = require('objects/conf/PerceptronModelConfig');
+    var FieldEditor = require('objects/FieldEditor');
+
     window.modelConfig = new PerceptronModelConfig({
         inputs: 9,
         outputs: 1,
         iterations: 10000
     });
 
-    window.field = new Field($('.field'));
-    field.setup(3, 3);
+    window.fieldEditor = new FieldEditor($('.field-editor'));
+    fieldEditor.setup(modelConfig.size);
+
+    modelConfig.sizeChanged.add(function(data) {
+        fieldEditor.setup(data.size);
+    });
+
+    fieldEditor.fieldCreated.add(function(field) {
+        console.log(field);
+    });
     window.DEBUG = true;
 });

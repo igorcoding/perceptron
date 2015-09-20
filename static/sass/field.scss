@@ -2,25 +2,18 @@
 
     &__table {
         margin: 0 auto;
-        &__row {
 
+        &__row {
+            border-color: #337ab7 !important;
             height: 40px;
 
             td {
-
+                border-color: #337ab7 !important;
             }
         }
     }
 
-    &__conf {
-        padding: 0 20px;
-        &__size {
-            padding-bottom: 15px;
-            border-bottom: solid #cacaca 1px;
-        }
+    &__label {
 
-        &__addbtn {
-            width: 100%;
-        }
     }
 }

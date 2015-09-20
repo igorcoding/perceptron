@@ -1,6 +1,7 @@
 define(function(require) {
     var $ = require('jquery');
     var _ = require('lodash');
+    var signals = require('signals');
     var ModelConfig = require('objects/conf/ModelConfig');
 
     var PerceptronModelConfig = Class.create(ModelConfig, {
@@ -12,9 +13,26 @@ define(function(require) {
             iterations: '#config_iterations'
         },
 
+        ELEMS: {
+            sizeChangerText: '.settings-window__config__size__text',
+            sizeChangerButton: '.settings-window__config__size__apply'
+        },
+
+        sizeChanged: new signals.Signal(),
+        size: 1,
+
         initialize: function($super, initialConfig) {
             $super(initialConfig);
+            this._jqFind('ELEMS');
 
+            var self = this;
+            this.$ELEMS.sizeChangerButton.click(function() {
+                self.size = parseInt(self.$ELEMS.sizeChangerText.val()) || 1;
+                self._setInputs(self.size * self.size);
+            });
+            this.size = parseInt(Math.sqrt(this.config.inputs));
+            this.$ELEMS.sizeChangerText.val(this.size);
+            this._fireSizeChanged();
         },
 
         getConfig: function() {
@@ -32,11 +50,28 @@ define(function(require) {
 
         applyConfig: function(config) {
             var values = this.$INPUTS;
-            values.inputs.val(config.inputs || 1);
-            values.outputs.val(config.outputs || 1);
+            this._setInputs(config.inputs, true);
+            this._setOutputs(config.outputs);
             values.learningRate.val(config.learningRate || 0.1);
             values.bias.attr('checked', config.bias);
             values.iterations.val(config.iterations || 10);
+        },
+
+        _setInputs: function(inputs, noFire) {
+            this.$INPUTS.inputs.val(inputs || 1);
+            if (!noFire) {
+                this._fireSizeChanged();
+            }
+        },
+
+        _setOutputs: function(outputs) {
+            this.$INPUTS.outputs.val(outputs || 1);
+        },
+
+        _fireSizeChanged: function() {
+            this.sizeChanged.dispatch({
+                size: this.size
+            });
         }
     });
 

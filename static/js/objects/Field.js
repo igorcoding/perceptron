@@ -1,16 +1,14 @@
 define(function(require) {
     var $ = require('jquery');
     var _ = require('lodash');
-    require('prototype');
 
-    var Field = Class.create({
+    var Object = require('objects/Object');
+
+    var Field = Class.create(Object, {
 
         ELEMS: {
             fieldConf: '.field__conf',
-            fieldConfSizeText: '.field__conf__size__text',
-            fieldConfSizeApply: '.field__conf__size__apply',
-            fieldConfLabel: '.field__conf__label',
-            fieldConfAddButton: '.field__conf__addbtn'
+            fieldConfLabel: '.field__conf__label'
         },
 
         CLASSES: {
@@ -20,47 +18,31 @@ define(function(require) {
 
         COLORS: {
             inactive: '#FFFFFF',
-            active: '#0000FF'
+            active: '#337ab7'
         },
 
-        initialize: function($root) {
+        enableLabelSwitch: true,
+
+        initialize: function(size, $root) {
+            $root = $root || $(document);
             this.$root = $root;
+            this.size = size;
+            this.rows = this.size;
+            this.cols = this.size;
+
             this._jqFind('ELEMS', $root);
+            this.createField();
 
 
             var self = this;
-            this.$ELEMS.fieldConfSizeApply.click(function() {
-                var size = parseInt(self.$ELEMS.fieldConfSizeText.val()) || 3;
-                self.setup(size, size);
-            });
 
             this.$ELEMS.fieldConfLabel.find('a').click(function() {
-                var li = $(this).parents('li');
-                li.siblings().removeClass('active');
-                li.addClass('active');
+                if (self.enableLabelSwitch) {
+                    var li = $(this).parents('li');
+                    li.siblings().removeClass('active');
+                    li.addClass('active');
+                }
                 return false;
-            });
-
-            this.$ELEMS.fieldConfAddButton.click(function() {
-
-            });
-        },
-
-        setup: function(rows, cols) {
-            this.rows = rows;
-            this.cols = cols;
-            this.$ELEMS.fieldConfSizeText.val(rows);
-            this.createField();
-        },
-
-        _jqFind: function(obj, $root) {
-            var $obj = '$' + obj;
-            this[$obj] = {};
-            if (!this[obj]) return;
-
-            var self = this;
-            _.forOwn(this[obj], function(value, key) {
-                self[$obj][key] = $root.find(value);
             });
         },
 
@@ -94,12 +76,13 @@ define(function(require) {
             var row = $cell.data('row');
             var col = $cell.data('col');
             var v = $cell.data('value');
-            var color = this.COLORS.inactive;
+            var color;
             if (v == 0) {
                 v = 1;
                 color = this.COLORS.active;
             } else {
                 v = 0;
+                color = this.COLORS.inactive;
             }
             $cell.data('value', v);
             $cell.css({'background-color': color});

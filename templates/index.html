@@ -29,23 +29,14 @@
                             <li role="presentation"><a href="#">Recognize</a></li>
                         </ul>
 
-                        <div class="workplace-window__content field">
+                        <div class="field-editor field">
                             <div class="row">
-                                <div class="workplace-window__content__field col-md-8">
-                                    <table class="field__table table table-bordered">
-
-                                    </table>
+                                <div class="col-md-8">
+                                    <table class="field__table table table-bordered"></table>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="field__conf">
-                                        <div class="field__conf__size row input-group">
-                                            <input type="number" class="field__conf__size__text form-control" placeholder="Size" min="1" max="10">
-                                            <span class="input-group-btn">
-                                                <button class="field__conf__size__apply btn btn-info" type="button">Apply size</button>
-                                            </span>
-                                        </div>
-
                                         <div class="row form-horizontal">
                                             <div class="form-group">
                                                 <label for="label_conf" class="col-md-5 control-label" style="margin-top: 19px;">Label:</label>
@@ -66,10 +57,13 @@
                                             </div>
                                         </div>
 
-
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="field-collection">
+                            <!--TODO-->
                         </div>
                     </div>
 
@@ -79,6 +73,16 @@
                         <div class="row text-center"><h4 class="settings-window__title">Model configuration</h4></div>
                         <div class="settings-window__config row">
                             <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-lg-8 col-lg-offset-2">
+                                        <div class="settings-window__config__size input-group">
+                                            <input type="number" class="settings-window__config__size__text form-control" placeholder="Size" min="1" max="10">
+                                            <span class="input-group-btn">
+                                                <button class="settings-window__config__size__apply btn btn-info" type="button">Apply size</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="config_inputs" class="col-sm-4 control-label">Inputs</label>
                                     <div class="col-sm-8">
