@@ -1,10 +1,10 @@
 define(function(require) {
     var $ = require('jquery');
     var _ = require('lodash');
-    require('prototype');
+    var ModelConfig = require('objects/conf/ModelConfig');
     require('tagsinput');
 
-    var ModelConfig = Class.create({
+    var NNModelConfig = Class.create(ModelConfig, {
 
         INPUTS: {
             layers: '#config_layers',
@@ -16,36 +16,24 @@ define(function(require) {
             iterations: '#config_iterations'
         },
 
-        initialize: function(initialConfig) {
-            this.config = initialConfig;
-            this._jqFind('INPUTS');
+        initialize: function($super, initialConfig) {
+            $super(initialConfig);
             this._initLayersConf();
         },
 
         getConfig: function() {
-            var inputs = this.$INPUTS;
+            var values = this.$INPUTS;
             this.config = {
-                layers: inputs.layers.tagsinput('items'),
-                activation: inputs.activation.val(),
-                learningRate: parseFloat(inputs.learningRate.val()),
-                momentum: parseFloat(inputs.momentum.val()),
-                regularization: parseFloat(inputs.regularization.val()),
-                bias: inputs.bias.is(':checked'),
-                iterations: parseInt(inputs.iterations.val())
+                layers: values.layers.tagsinput('items'),
+                activation: values.activation.val(),
+                learningRate: parseFloat(values.learningRate.val()),
+                momentum: parseFloat(values.momentum.val()),
+                regularization: parseFloat(values.regularization.val()),
+                bias: values.bias.is(':checked'),
+                iterations: parseInt(values.iterations.val())
             };
 
             return this.config;
-        },
-
-        _jqFind: function(obj) {
-            var $obj = '$' + obj;
-            this[$obj] = {};
-            if (!this[obj]) return;
-
-            var self = this;
-            _.forOwn(this[obj], function(value, key) {
-                self[$obj][key] = $(value);
-            });
         },
 
         _initLayersConf: function() {
@@ -74,5 +62,5 @@ define(function(require) {
         }
     });
 
-    return ModelConfig;
+    return NNModelConfig;
 });

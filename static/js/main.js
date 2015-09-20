@@ -33,9 +33,14 @@ require.config({
     }
 });
 
-define('main', ['jquery' ,'objects/ModelConfig'], function($, ModelConfig) {
-    window.modelConfig = new ModelConfig({
-        layers: [3]
+define('main', ['jquery' ,'objects/conf/PerceptronModelConfig', 'objects/Field'], function($, PerceptronModelConfig, Field) {
+    window.modelConfig = new PerceptronModelConfig({
+        inputs: 9,
+        outputs: 1,
+        iterations: 10000
     });
+
+    window.field = new Field($('.field'));
+    field.setup(3, 3);
     window.DEBUG = true;
 });

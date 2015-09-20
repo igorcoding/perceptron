@@ -1,0 +1,26 @@
+.field {
+
+    &__table {
+        margin: 0 auto;
+        &__row {
+
+            height: 40px;
+
+            td {
+
+            }
+        }
+    }
+
+    &__conf {
+        padding: 0 20px;
+        &__size {
+            padding-bottom: 15px;
+            border-bottom: solid #cacaca 1px;
+        }
+
+        &__addbtn {
+            width: 100%;
+        }
+    }
+}

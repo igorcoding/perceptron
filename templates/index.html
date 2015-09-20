@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/lib/bootstrap-tagsinput.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/field.css" />
 
     <title>{{ .__title__ }}</title>
 </head>
@@ -27,6 +28,49 @@
                             <li role="presentation" class="active"><a href="#">Learn</a></li>
                             <li role="presentation"><a href="#">Recognize</a></li>
                         </ul>
+
+                        <div class="workplace-window__content field">
+                            <div class="row">
+                                <div class="workplace-window__content__field col-md-8">
+                                    <table class="field__table table table-bordered">
+
+                                    </table>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="field__conf">
+                                        <div class="field__conf__size row input-group">
+                                            <input type="number" class="field__conf__size__text form-control" placeholder="Size" min="1" max="10">
+                                            <span class="input-group-btn">
+                                                <button class="field__conf__size__apply btn btn-info" type="button">Apply size</button>
+                                            </span>
+                                        </div>
+
+                                        <div class="row form-horizontal">
+                                            <div class="form-group">
+                                                <label for="label_conf" class="col-md-5 control-label" style="margin-top: 19px;">Label:</label>
+                                                <div class="col-md-7">
+                                                    <nav id="label_conf">
+                                                        <ul class="field__conf__label pagination">
+                                                            <li class="active"><a href="#" data-value="0">0</a></li>
+                                                            <li class=""><a href="#" data-value="1">1</a></li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <button class="field__conf__addbtn btn btn-success" type="button">Add</button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 
@@ -36,36 +80,21 @@
                         <div class="settings-window__config row">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="config_layers" class="col-sm-4 control-label">Layers</label>
+                                    <label for="config_inputs" class="col-sm-4 control-label">Inputs</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="config_layers" placeholder="">
+                                        <input type="text" class="form-control" id="config_inputs" name="inputs" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="config_activation" class="col-sm-4 control-label">Activation function</label>
+                                    <label for="config_outputs" class="col-sm-4 control-label">Outputs</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" id="config_activation" name="activation">
-                                            <option>Logistic sigmoid</option>
-                                            <option>Threshold</option>
-                                        </select>
+                                        <input type="number" class="form-control" id="config_outputs" name="outputs" placeholder="" value="1" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="config_learning_rate" class="col-sm-4 control-label">Learning rate</label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" id="config_learning_rate" name="learning_rate" placeholder="Learning rate">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="config_momentum" class="col-sm-4 control-label">Momentum</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" class="form-control" id="config_momentum" name="momentum" placeholder="Momentum">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="config_regularization" class="col-sm-4 control-label">Regularization</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" class="form-control" id="config_regularization" name="regularization" placeholder="Regularization">
+                                        <input type="text" class="form-control" id="config_learning_rate" name="learning_rate" placeholder="Learning rate">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -91,6 +120,65 @@
                                 </div>
                             </form>
                         </div>
+
+                        <!--<div class="settings-window__config row">-->
+                            <!--<form class="form-horizontal">-->
+                                <!--<div class="form-group">-->
+                                    <!--<label for="config_layers" class="col-sm-4 control-label">Layers</label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<input type="text" class="form-control" id="config_layers" placeholder="">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<label for="config_activation" class="col-sm-4 control-label">Activation function</label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<select class="form-control" id="config_activation" name="activation">-->
+                                            <!--<option>Logistic sigmoid</option>-->
+                                            <!--<option>Threshold</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<label for="config_learning_rate" class="col-sm-4 control-label">Learning rate</label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<input type="number" class="form-control" id="config_learning_rate" name="learning_rate" placeholder="Learning rate">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<label for="config_momentum" class="col-sm-4 control-label">Momentum</label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<input type="number" class="form-control" id="config_momentum" name="momentum" placeholder="Momentum">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<label for="config_regularization" class="col-sm-4 control-label">Regularization</label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<input type="number" class="form-control" id="config_regularization" name="regularization" placeholder="Regularization">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<label for="config_bias" class="col-sm-4 control-label">Use bias units</label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<div class="checkbox">-->
+                                            <!--<label>-->
+                                                <!--<input type="checkbox" name="bias" id="config_bias">-->
+                                            <!--</label>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<label for="config_iterations" class="col-sm-4 control-label">Iterations count</label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<input type="number" class="form-control" id="config_iterations" name="iterations" placeholder="Iterations count">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-sm-offset-4 col-sm-8">-->
+                                        <!--<button type="submit" class="btn btn-default">Save locally</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</form>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
