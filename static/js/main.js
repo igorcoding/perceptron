@@ -4,7 +4,9 @@ require.config({
     paths: {
         jquery: "lib/jquery-2.1.4.min",
         lodash: "lib/lodash.min",
-        fileinput: "lib/fileinput.min"
+        fileinput: "lib/fileinput.min",
+        tagsinput: "lib/bootstrap-tagsinput",
+        prototype: "lib/prototype"
     },
     shim: {
         'jquery': {
@@ -18,11 +20,22 @@ require.config({
             deps: [
                 'jquery'
             ]
+        },
+        tagsinput: {
+            exports: 'tagsinput',
+            deps: [
+                'jquery'
+            ]
+        },
+        prototype: {
+            exports: 'Prototype'
         }
     }
 });
 
-define('main', ['jquery' /*,'fileinput'*/], function($) {
-    //$('#input-id').fileinput();
+define('main', ['jquery' ,'objects/ModelConfig'], function($, ModelConfig) {
+    window.modelConfig = new ModelConfig({
+        layers: [3]
+    });
     window.DEBUG = true;
 });
