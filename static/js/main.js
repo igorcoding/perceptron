@@ -52,6 +52,9 @@ define(function(require) {
     var PerceptronModelConfig = require('objects/conf/PerceptronModelConfig');
     var Train = require('routes/Train');
     var Recognize = require('routes/Recognize');
+    var Templates = require('util/Templates');
+
+    var $weightsPanel = $('.side-window__weights__table');
 
     window.modelConfig = new PerceptronModelConfig({
         inputs: 9,
@@ -61,6 +64,11 @@ define(function(require) {
 
     window.trainPage = new Train($('.learn-page'), modelConfig);
     window.recognizePage = new Recognize($('.recognize-page'), modelConfig);
+
+    trainPage.onTrained = function(data) {
+        var templ = Templates['weights-table'](data);
+        $weightsPanel.html(templ);
+    };
 
     modelConfig.sizeChanged.add(function(data) {
         trainPage.sizeChanged(data);

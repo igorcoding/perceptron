@@ -9,6 +9,8 @@ define(function(require) {
 
     var Train = Class.create(Page, {
 
+        onTrained: function() {},
+
         initialize: function($super, $root, modelConfig) {
             $super($root);
             var self = this;
@@ -39,6 +41,7 @@ define(function(require) {
                     if (err) {
                         return alertify.error('Error happened: ' + JSON.stringify(err.data));
                     }
+                    self.onTrained(resp);
                     console.log(resp);
                     alertify.success('Train completed successfully');
                 });

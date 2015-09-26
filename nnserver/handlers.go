@@ -56,8 +56,11 @@ func (self *nnServer) apiLearn(w http.ResponseWriter, r *http.Request) {
 
 	net.Train(req.TrainData)
 
+	data := self.makeData()
+	data["weights"] = net.W
 	resp := ApiResponse{
 		Status: "ok",
+		Data: data,
 	}
 	self.apiOkResponse(w, &resp)
 }

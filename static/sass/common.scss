@@ -14,7 +14,7 @@ html, body {
     }
 }
 
-.settings-window {
+.side-window {
     border-left: solid #cacaca 1px;
 
     &__title {
@@ -22,7 +22,14 @@ html, body {
     }
 
     &__config {
-        padding: 0 15px;
+
+        &__conf {
+            padding: 0 15px;
+        }
+    }
+
+    &__weights__table {
+        width: 100%;
     }
 }
 

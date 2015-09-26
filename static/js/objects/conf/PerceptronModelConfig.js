@@ -14,8 +14,8 @@ define(function(require) {
         },
 
         ELEMS: {
-            sizeChangerText: '.settings-window__config__size__text',
-            sizeChangerButton: '.settings-window__config__size__apply'
+            sizeChangerText: '.side-window__config__conf__size__text',
+            sizeChangerButton: '.side-window__config__conf__size__apply'
         },
 
         sizeChanged: new signals.Signal(),

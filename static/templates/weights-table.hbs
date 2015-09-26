@@ -1,0 +1,18 @@
+<table class="table table-bordered">
+    <tr>
+        <th>Weight</th>
+        <th>Value</th>
+    </tr>
+    {{#each weights}}
+        <tr>
+            <td>w<sub>{{@index}}</sub></td>
+            <td>{{this}}</td>
+        </tr>
+    {{/each}}
+    {{#if activation}}
+        <tr>
+            <th>Activation:</th>
+            <th>{{data.activation}}</th>
+        </tr>
+    {{/if}}
+</table>
