@@ -29,3 +29,30 @@ html, body {
 .field__conf__addbtn {
     width: 100%;
 }
+
+
+.field-editor {
+    margin-top: 20px;
+}
+
+.field-collection {
+    margin-top: 100px;
+    background-color: #8ac24a;
+    height: 20px;
+}
+
+.field-card {
+    display: inline-block;
+    border: solid black 1px;
+    border-radius: 10px;
+    padding: 20px;
+
+}
+
+.field-card .field__table {
+
+}
+
+.field-card .field__conf__label {
+    margin: 20px auto;
+}

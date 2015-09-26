@@ -22,7 +22,7 @@ define(function(require) {
             var self = this;
             this.$ELEMS.fieldEditorConfAddButton.attr('disabled', true);
             this.$ELEMS.fieldEditorConfAddButton.click(function() {
-                self.fieldCreated.dispatch(self.field);
+                self.fieldCreated.dispatch(self.field.disable());
                 self.field = new Field(self.field.size, self.$root);
             });
         },

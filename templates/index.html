@@ -29,41 +29,75 @@
                             <li role="presentation"><a href="#">Recognize</a></li>
                         </ul>
 
-                        <div class="field-editor field">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <table class="field__table table table-bordered"></table>
-                                </div>
+                        <div class="field-editor field row">
+                            <div class="col-md-8">
+                                <table class="field__table table table-bordered"></table>
+                            </div>
 
-                                <div class="col-md-4">
-                                    <div class="field__conf">
-                                        <div class="row form-horizontal">
-                                            <div class="form-group">
-                                                <label for="label_conf" class="col-md-5 control-label" style="margin-top: 19px;">Label:</label>
-                                                <div class="col-md-7">
-                                                    <nav id="label_conf">
-                                                        <ul class="field__conf__label pagination">
-                                                            <li class="active"><a href="#" data-value="0">0</a></li>
-                                                            <li class=""><a href="#" data-value="1">1</a></li>
-                                                        </ul>
-                                                    </nav>
-                                                </div>
+                            <div class="col-md-4">
+                                <div class="field__conf">
+                                    <div class="row form-horizontal">
+                                        <div class="form-group">
+                                            <label for="label_conf" class="col-md-5 control-label">Label:</label>
+                                            <div class="col-md-7">
+                                                <nav id="label_conf">
+                                                    <ul class="field__conf__label pagination">
+                                                        <li class="active"><a href="#" data-value="0">0</a></li>
+                                                        <li class=""><a href="#" data-value="1">1</a></li>
+                                                    </ul>
+                                                </nav>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <button class="field__conf__addbtn btn btn-success" type="button">Add</button>
-                                            </div>
-                                        </div>
-
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <button class="field__conf__addbtn btn btn-success" type="button">Add</button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
 
                         <div class="field-collection">
                             <!--TODO-->
+                            <div class="field field-card container-fluid">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class="field__table table table-bordered" style="width: 120px;">
+                                            <tr class="field__table__row">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="field__table__row">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="field__table__row">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <nav>
+                                            <ul class="field__conf__label pagination">
+                                                <li class="active"><a href="#" data-value="0">0</a></li>
+                                                <li class=""><a href="#" data-value="1">1</a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -102,13 +136,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="config_bias" class="col-sm-4 control-label">Use bias units</label>
+                                    <label for="config_threshold" class="col-sm-4 control-label">Threshold</label>
                                     <div class="col-sm-8">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="bias" id="config_bias">
-                                            </label>
-                                        </div>
+                                        <input type="text" class="form-control" id="config_threshold" name="threshold" placeholder="Threshold">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -124,65 +154,6 @@
                                 </div>
                             </form>
                         </div>
-
-                        <!--<div class="settings-window__config row">-->
-                            <!--<form class="form-horizontal">-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="config_layers" class="col-sm-4 control-label">Layers</label>-->
-                                    <!--<div class="col-sm-8">-->
-                                        <!--<input type="text" class="form-control" id="config_layers" placeholder="">-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="config_activation" class="col-sm-4 control-label">Activation function</label>-->
-                                    <!--<div class="col-sm-8">-->
-                                        <!--<select class="form-control" id="config_activation" name="activation">-->
-                                            <!--<option>Logistic sigmoid</option>-->
-                                            <!--<option>Threshold</option>-->
-                                        <!--</select>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="config_learning_rate" class="col-sm-4 control-label">Learning rate</label>-->
-                                    <!--<div class="col-sm-8">-->
-                                        <!--<input type="number" class="form-control" id="config_learning_rate" name="learning_rate" placeholder="Learning rate">-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="config_momentum" class="col-sm-4 control-label">Momentum</label>-->
-                                    <!--<div class="col-sm-8">-->
-                                        <!--<input type="number" class="form-control" id="config_momentum" name="momentum" placeholder="Momentum">-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="config_regularization" class="col-sm-4 control-label">Regularization</label>-->
-                                    <!--<div class="col-sm-8">-->
-                                        <!--<input type="number" class="form-control" id="config_regularization" name="regularization" placeholder="Regularization">-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="config_bias" class="col-sm-4 control-label">Use bias units</label>-->
-                                    <!--<div class="col-sm-8">-->
-                                        <!--<div class="checkbox">-->
-                                            <!--<label>-->
-                                                <!--<input type="checkbox" name="bias" id="config_bias">-->
-                                            <!--</label>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="config_iterations" class="col-sm-4 control-label">Iterations count</label>-->
-                                    <!--<div class="col-sm-8">-->
-                                        <!--<input type="number" class="form-control" id="config_iterations" name="iterations" placeholder="Iterations count">-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-sm-offset-4 col-sm-8">-->
-                                        <!--<button type="submit" class="btn btn-default">Save locally</button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</form>-->
-                        <!--</div>-->
                     </div>
                 </div>
             </div>

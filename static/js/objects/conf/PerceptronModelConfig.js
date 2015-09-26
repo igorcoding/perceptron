@@ -9,7 +9,7 @@ define(function(require) {
             inputs: '#config_inputs',
             outputs: '#config_outputs',
             learningRate: '#config_learning_rate',
-            bias: '#config_bias',
+            threshold: '#config_threshold',
             iterations: '#config_iterations'
         },
 
@@ -41,7 +41,7 @@ define(function(require) {
                 inputs: parseInt(values.inputs.val() || 0),
                 outputs: parseInt(values.outputs.val() || 0),
                 learningRate: parseFloat(values.learningRate.val() || 0),
-                bias: values.bias.is(':checked'),
+                threshold: parseFloat(values.threshold.val() || 0),
                 iterations: parseInt(values.iterations.val() || 1)
             };
 
@@ -53,7 +53,7 @@ define(function(require) {
             this._setInputs(config.inputs, true);
             this._setOutputs(config.outputs);
             values.learningRate.val(config.learningRate || 0.1);
-            values.bias.attr('checked', config.bias);
+            values.threshold.val(config.threshold || 0);
             values.iterations.val(config.iterations || 10);
         },
 

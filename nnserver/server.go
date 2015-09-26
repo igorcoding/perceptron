@@ -7,12 +7,13 @@ import (
 	"github.com/op/go-logging"
 	"os"
 	"time"
-	"path"
-	"html/template"
+	"github.com/gorilla/sessions"
+	"github.com/gorilla/context"
 )
 
 const (
 	DEFAULT_PORT = 9000
+	DEFAULT_SESSION_SECRET = "something-very-secret"
 )
 
 type NNServerConf struct {
@@ -23,6 +24,8 @@ type NNServerConf struct {
 	TemplatesDir string
 	StaticDir string
 	StaticUrl string
+
+	SessionSecret string
 }
 
 
@@ -32,6 +35,8 @@ type nnServer struct {
 	server *graceful.Server
 	serverMux *http.ServeMux
 	log *logging.Logger
+
+	cookieStore *sessions.CookieStore
 }
 
 func NewNNServer(conf *NNServerConf) *nnServer {
@@ -40,6 +45,9 @@ func NewNNServer(conf *NNServerConf) *nnServer {
 	}
 	if conf.Port == 0 {
 		conf.Port = DEFAULT_PORT
+	}
+	if conf.SessionSecret == "" {
+		conf.SessionSecret = DEFAULT_SESSION_SECRET
 	}
 
 	self := &nnServer{conf:conf}
@@ -50,10 +58,11 @@ func NewNNServer(conf *NNServerConf) *nnServer {
 
 		Server: &http.Server{
 			Addr: ":" + self.getPortStr(),
-			Handler: self.LogMiddleware(self.serverMux),
+			Handler: self.LogMiddleware(context.ClearHandler(self.serverMux)),
 		},
 	}
 	self.server.SetKeepAlivesEnabled(false) // FIXME
+	self.cookieStore = sessions.NewCookieStore([]byte(self.conf.SessionSecret))
 
 	self.setupHandlers()
 	fs := http.FileServer(http.Dir(self.conf.StaticDir))
@@ -72,6 +81,9 @@ type loggedResponse struct {
 }
 
 func (l *loggedResponse) WriteHeader(status int) {
+	if status == 0 {
+		status = 200
+	}
 	l.status = status
 	l.ResponseWriter.WriteHeader(status)
 }
@@ -89,13 +101,6 @@ func (self *nnServer) setupLogging() {
 	logging.SetBackend(loggingBackendLeveled)
 }
 
-func (self *nnServer) getTemplate(templateName string) *template.Template {
-	t, err := template.ParseFiles(path.Join(self.conf.TemplatesDir, "index.html"))
-	if (err != nil) {
-		panic(err.Error())
-	}
-	return t
-}
 
 func (self *nnServer) LogMiddleware(handler http.Handler) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

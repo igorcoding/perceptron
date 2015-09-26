@@ -22,6 +22,7 @@ define(function(require) {
         },
 
         enableLabelSwitch: true,
+        enableEdit: true,
 
         initialize: function(size, $root) {
             $root = $root || $(document);
@@ -68,7 +69,9 @@ define(function(require) {
 
             var self = this;
             this.$cells.click(function() {
-                self.changeCellValue($(this));
+                if (self.enableEdit) {
+                    self.changeCellValue($(this));
+                }
             });
         },
 
@@ -98,6 +101,18 @@ define(function(require) {
 
         getLabel: function() {
             return this.$ELEMS.fieldConfLabel.find('li').filter('.active').find('a').data('value');
+        },
+
+        disable: function() {
+            this.enableEdit = false;
+            this.enableLabelSwitch = false;
+            return this;
+        },
+
+        enable: function() {
+            this.enableEdit = true;
+            this.enableLabelSwitch = true;
+            return this;
         }
     });
 
