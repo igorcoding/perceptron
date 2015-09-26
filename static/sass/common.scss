@@ -37,7 +37,7 @@ html, body {
 
 .field-collection {
     margin-top: 100px;
-    background-color: #8ac24a;
+    //background-color: #8ac24a;
     height: 20px;
 }
 
@@ -45,14 +45,22 @@ html, body {
     display: inline-block;
     border: solid black 1px;
     border-radius: 10px;
-    padding: 20px;
+    margin: 10px 0 0 30px;
+    padding: 40px 20px 20px;
+    position: relative;
 
-}
+    .field__table {
 
-.field-card .field__table {
+    }
 
-}
+    .field__conf__label {
+        margin: 20px auto;
+    }
 
-.field-card .field__conf__label {
-    margin: 20px auto;
+    &__remove-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
 }

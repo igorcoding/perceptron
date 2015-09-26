@@ -20,11 +20,13 @@ define(function(require) {
             inactive: '#FFFFFF',
             active: '#337ab7'
         },
+        COLORS_ARR: [],
 
         enableLabelSwitch: true,
         enableEdit: true,
+        id: null,
 
-        initialize: function(size, $root) {
+        initialize: function(size, $root, noCreateField) {
             $root = $root || $(document);
             this.$root = $root;
             this.size = size;
@@ -32,9 +34,14 @@ define(function(require) {
             this.cols = this.size;
 
             this._jqFind('ELEMS', $root);
-            this.createField();
+            this.COLORS_ARR = [this.COLORS.inactive, this.COLORS.active];
+            if (!noCreateField) {
+                this.createField();
+            }
+            this.bindEvents();
+        },
 
-
+        bindEvents: function() {
             var self = this;
 
             this.$ELEMS.fieldConfLabel.find('a').click(function() {
@@ -49,6 +56,7 @@ define(function(require) {
 
         createField: function() {
             this.$table = this.$root.find('.' + this.CLASSES.table);
+
             this.$table.empty();
             for (var i = 0; i < this.rows; ++i) {
                 var $row = $('<tr></tr>');
@@ -75,20 +83,37 @@ define(function(require) {
             });
         },
 
-        changeCellValue: function($cell) {
+        changeCellValue: function($cell, value) {
+            if (value < 0 || value >= this.COLORS_ARR.length) {
+                return console.error("value < 0 || value >= this.COLORS_ARR.length");
+            }
+
             var row = $cell.data('row');
             var col = $cell.data('col');
             var v = $cell.data('value');
-            var color;
-            if (v == 0) {
-                v = 1;
-                color = this.COLORS.active;
-            } else {
-                v = 0;
-                color = this.COLORS.inactive;
+            var new_value = value;
+            if (!new_value) {
+                if (v == 0) {
+                    new_value = 1;
+                } else {
+                    new_value = 0;
+                }
             }
-            $cell.data('value', v);
+            var color = this.COLORS_ARR[new_value];
+
+            $cell.data('value', new_value);
             $cell.css({'background-color': color});
+        },
+
+        applyData: function(data) {
+            if (data.length != this.$cells.length) {
+                console.error("data.length != this.$cells.length");
+                return;
+            }
+            var self = this;
+            _.forEach(this.$cells, function(cell, i) {
+                self.changeCellValue($(cell), data[i]);
+            });
         },
 
         getData: function() {
@@ -97,6 +122,17 @@ define(function(require) {
                 data.push(parseInt($(cell).data('value')) || 0);
             });
             return data;
+        },
+
+        applyLabel: function(labelValue) {
+            _.forEach(this.$ELEMS.fieldConfLabel.find('li').find('a'), function(a) {
+                var $a = $(a);
+                if ($a.data('value') == labelValue) {
+                    var li = $a.parents('li');
+                    li.siblings().removeClass('active');
+                    li.addClass('active');
+                }
+            });
         },
 
         getLabel: function() {
@@ -113,6 +149,14 @@ define(function(require) {
             this.enableEdit = true;
             this.enableLabelSwitch = true;
             return this;
+        },
+
+        getTableElem: function() {
+            return this.$table;
+        },
+
+        getLabelElem: function() {
+            return this.$ELEMS.fieldConfLabel;
         }
     });
 

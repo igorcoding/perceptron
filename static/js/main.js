@@ -7,7 +7,8 @@ require.config({
         fileinput: "lib/fileinput.min",
         tagsinput: "lib/bootstrap-tagsinput",
         prototype: "lib/prototype",
-        signals: "lib/signals.min"
+        signals: "lib/signals.min",
+        handlebars: "lib/handlebars.runtime-v4.0.2"
     },
     shim: {
         'jquery': {
@@ -33,15 +34,22 @@ require.config({
         },
         signals: {
             exports: 'signals'
+        },
+        handlebars: {
+            exports: 'Handlebars'
         }
     }
 });
 
 define(function(require) {
     var $ = require('jquery');
+    var Handlebars = require('handlebars');
+    console.log(Handlebars);
 
     var PerceptronModelConfig = require('objects/conf/PerceptronModelConfig');
     var FieldEditor = require('objects/FieldEditor');
+
+    var FieldCollection = require('objects/FieldCollection');
 
     window.modelConfig = new PerceptronModelConfig({
         inputs: 9,
@@ -52,11 +60,14 @@ define(function(require) {
     window.fieldEditor = new FieldEditor($('.field-editor'));
     fieldEditor.setup(modelConfig.size);
 
+    window.fieldCollection = new FieldCollection($('.field-collection'));
+
     modelConfig.sizeChanged.add(function(data) {
         fieldEditor.setup(data.size);
     });
 
     fieldEditor.fieldCreated.add(function(field) {
+        fieldCollection.addField(field);
         console.log(field);
     });
     window.DEBUG = true;
