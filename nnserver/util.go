@@ -58,11 +58,12 @@ func (self *nnServer) getCookie(w http.ResponseWriter, r *http.Request, key stri
 	return session, err
 }
 
-func (self *nnServer) getSessionId(w http.ResponseWriter, r *http.Request) (*sessions.Session, error)  {
+func (self *nnServer) getSession(w http.ResponseWriter, r *http.Request) (*sessions.Session, error)  {
 	return self.getCookie(w, r, "sessionId")
 }
 
 func (self *nnServer) apiOkResponse(w http.ResponseWriter, resp *ApiResponse) error {
+	resp.Status = "ok"
 	js, err := json.Marshal(resp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -75,6 +76,7 @@ func (self *nnServer) apiOkResponse(w http.ResponseWriter, resp *ApiResponse) er
 }
 
 func (self *nnServer) apiErrorResponse(w http.ResponseWriter, resp *ApiResponse, code int) error {
+	resp.Status = "error"
 	js, err := json.Marshal(resp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

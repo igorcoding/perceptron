@@ -52,6 +52,13 @@ define(function(require) {
                 }
                 return false;
             });
+
+            this.$ELEMS.fieldConfLabel.find('a').hover(function(event) {
+                if (!self.enableLabelSwitch) {
+                    console.log('hover disabled');
+                    return false;
+                }
+            });
         },
 
         createField: function() {
@@ -92,7 +99,7 @@ define(function(require) {
             var col = $cell.data('col');
             var v = $cell.data('value');
             var new_value = value;
-            if (!new_value) {
+            if (typeof new_value == 'undefined' || new_value === null) {
                 if (v == 0) {
                     new_value = 1;
                 } else {
@@ -151,12 +158,30 @@ define(function(require) {
             return this;
         },
 
+        setTableElem: function($elem) {
+            this.$table = $elem;
+            this.$rows = this.$table.find('.' + this.CLASSES.row);
+            this.$cells = this.$rows.find('td');
+        },
+
         getTableElem: function() {
             return this.$table;
         },
 
+        setLabelElem: function($elem) {
+            this.$ELEMS.fieldConfLabel = $elem;
+        },
+
         getLabelElem: function() {
             return this.$ELEMS.fieldConfLabel;
+        },
+
+        clear: function() {
+            var self = this;
+            _.forEach(this.$cells, function(cell) {
+                self.changeCellValue($(cell), 0);
+            });
+            this.$ELEMS.fieldConfLabel.find('li').removeClass('active');
         }
     });
 

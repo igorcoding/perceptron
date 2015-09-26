@@ -15,7 +15,10 @@
 
     &__conf {
         &__label {
-            margin: 0 auto;
+
+            .pagination {
+                margin: 0 auto;
+            }
 
         }
     }

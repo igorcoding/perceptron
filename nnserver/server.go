@@ -9,6 +9,7 @@ import (
 	"time"
 	"github.com/gorilla/sessions"
 	"github.com/gorilla/context"
+	"github.com/igorcoding/go-nn/perceptron"
 )
 
 const (
@@ -37,6 +38,7 @@ type nnServer struct {
 	log *logging.Logger
 
 	cookieStore *sessions.CookieStore
+	nets map[string]*perceptron.PerceptronNet
 }
 
 func NewNNServer(conf *NNServerConf) *nnServer {
@@ -68,6 +70,9 @@ func NewNNServer(conf *NNServerConf) *nnServer {
 	fs := http.FileServer(http.Dir(self.conf.StaticDir))
 	self.serverMux.Handle(self.conf.StaticUrl, http.StripPrefix("", fs))
 	self.setupLogging()
+
+
+	self.nets = make(map[string]*perceptron.PerceptronNet)
 	return self
 }
 

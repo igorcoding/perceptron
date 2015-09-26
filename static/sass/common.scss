@@ -64,3 +64,12 @@ html, body {
         cursor: pointer;
     }
 }
+
+
+.learn-button, .recognize-button, .clear-button {
+    width: 100%;
+}
+
+.recognize-page {
+    display: none;
+}

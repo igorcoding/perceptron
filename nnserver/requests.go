@@ -7,7 +7,11 @@ type ApiLearnRequest struct {
 	LearningRate float64
 	Threshold float64
 	Iterations int
-	TrainExamples []util.TrainExample
+	TrainData []util.TrainExample
+}
+
+type ApiRecognizeRequest struct {
+	Data []float64
 }
 
 

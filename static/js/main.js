@@ -43,13 +43,10 @@ require.config({
 
 define(function(require) {
     var $ = require('jquery');
-    var Handlebars = require('handlebars');
-    console.log(Handlebars);
-
     var PerceptronModelConfig = require('objects/conf/PerceptronModelConfig');
-    var FieldEditor = require('objects/FieldEditor');
 
-    var FieldCollection = require('objects/FieldCollection');
+    var Train = require('routes/Train');
+    var Recognize = require('routes/Recognize');
 
     window.modelConfig = new PerceptronModelConfig({
         inputs: 9,
@@ -57,18 +54,32 @@ define(function(require) {
         iterations: 10000
     });
 
-    window.fieldEditor = new FieldEditor($('.field-editor'));
-    fieldEditor.setup(modelConfig.size);
-
-    window.fieldCollection = new FieldCollection($('.field-collection'));
+    window.trainPage = new Train($('.learn-page'), modelConfig);
+    window.recognizePage = new Recognize($('.recognize-page'), modelConfig);
 
     modelConfig.sizeChanged.add(function(data) {
-        fieldEditor.setup(data.size);
+        trainPage.sizeChanged(data);
+        recognizePage.sizeChanged(data);
     });
 
-    fieldEditor.fieldCreated.add(function(field) {
-        fieldCollection.addField(field);
-        console.log(field);
+    $('.page-switcher').find('a').click(function() {
+        var $this = $(this);
+        var li = $this.parents('li');
+        li.siblings().removeClass('active');
+        li.addClass('active');
+
+        var selectedPage = $this.data('page');
+        if (selectedPage == 'train') {
+            recognizePage.hide();
+            trainPage.show();
+        } else if (selectedPage == 'recognize') {
+            trainPage.hide();
+            recognizePage.show();
+        }
+
+        return false;
     });
+
+
     window.DEBUG = true;
 });

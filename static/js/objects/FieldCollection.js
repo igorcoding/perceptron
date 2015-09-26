@@ -21,6 +21,8 @@ define(function(require) {
         },
 
         addField: function(field) {
+            field.setTableElem(field.getTableElem().clone(true));
+            field.setLabelElem(field.getLabelElem().clone(true));
             this.fields.push(field);
             var id = this.fields.length - 1;
             this.renderFieldCard(field, id);
@@ -28,8 +30,8 @@ define(function(require) {
 
         renderFieldCard: function(field, id) {
             var data = {
-                field_table: field.getTableElem().clone(true),
-                field_label: field.getLabelElem().clone(true)
+                field_table: field.getTableElem(),
+                field_label: field.getLabelElem()
             };
             var templ = Templates['field-card']();
             var $templ = $(templ);
@@ -53,7 +55,7 @@ define(function(require) {
             _.forEach(this.fields, function(field) {
                 arr.push({
                     input: field.getData(),
-                    output: field.getLabel()
+                    output: [field.getLabel()]
                 });
             });
             return arr;
