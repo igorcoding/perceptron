@@ -1,7 +1,8 @@
 define(function(require) {
     var $ = require('jquery');
-    var Page = require('routes/Page');
+    var alertify = require('alertify');
 
+    var Page = require('routes/Page');
     var FieldEditor = require('objects/FieldEditor');
     var Client = require('api/Client');
 
@@ -18,6 +19,7 @@ define(function(require) {
 
         sizeChanged: function(data) {
             this.fieldEditor.setup(data.size);
+            this.fieldEditor.field.enableLabelSwitch = false;
         },
 
         bindEvents: function() {
@@ -26,9 +28,12 @@ define(function(require) {
                 var $this = $(this);
                 $this.attr("disabled", true);
                 Client.recognize(self.fieldEditor.field.getData(), function(err, resp) {
-                    console.log(resp);
                     $this.attr("disabled", false);
-
+                    if (err) {
+                        return alertify.error('Error happened: ' + JSON.stringify(err.data));
+                    }
+                    console.log(resp);
+                    alertify.success('Recognition finished');
                     self.fieldEditor.field.applyLabel(resp.prediction);
                 });
             });

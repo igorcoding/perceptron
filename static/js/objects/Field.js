@@ -25,19 +25,19 @@ define(function(require) {
         enableLabelSwitch: true,
         enableEdit: true,
         id: null,
+        extraClasses: [],
 
-        initialize: function(size, $root, noCreateField) {
+        initialize: function(size, $root, createTable, extraClasses) {
             $root = $root || $(document);
             this.$root = $root;
             this.size = size;
             this.rows = this.size;
             this.cols = this.size;
+            this.extraClasses = extraClasses;
 
             this._jqFind('ELEMS', $root);
             this.COLORS_ARR = [this.COLORS.inactive, this.COLORS.active];
-            if (!noCreateField) {
-                this.createField();
-            }
+            this.createField(createTable);
             this.bindEvents();
         },
 
@@ -52,17 +52,19 @@ define(function(require) {
                 }
                 return false;
             });
-
-            this.$ELEMS.fieldConfLabel.find('a').hover(function(event) {
-                if (!self.enableLabelSwitch) {
-                    console.log('hover disabled');
-                    return false;
-                }
-            });
         },
 
-        createField: function() {
-            this.$table = this.$root.find('.' + this.CLASSES.table);
+        createField: function(createTable) {
+            var self = this;
+
+            if (createTable) {
+                this.$table = $("<table></table>").addClass(this.CLASSES.table);
+            } else {
+                this.$table = this.$root.find("." + this.CLASSES.table);
+            }
+            _.forEach(this.extraClasses, function (c) {
+                self.$table.addClass(c);
+            });
 
             this.$table.empty();
             for (var i = 0; i < this.rows; ++i) {
@@ -82,7 +84,6 @@ define(function(require) {
             this.$rows = this.$table.find('.' + this.CLASSES.row);
             this.$cells = this.$rows.find('td');
 
-            var self = this;
             this.$cells.click(function() {
                 if (self.enableEdit) {
                     self.changeCellValue($(this));
@@ -164,12 +165,20 @@ define(function(require) {
             this.$cells = this.$rows.find('td');
         },
 
+        removeTableElem: function() {
+            this.$table.remove();
+        },
+
         getTableElem: function() {
             return this.$table;
         },
 
         setLabelElem: function($elem) {
             this.$ELEMS.fieldConfLabel = $elem;
+        },
+
+        removeLabelElem: function() {
+            this.$ELEMS.fieldConfLabel.remove();
         },
 
         getLabelElem: function() {

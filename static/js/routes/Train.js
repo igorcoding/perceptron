@@ -1,10 +1,10 @@
 define(function(require) {
     var $ = require('jquery');
-    var Page = require('routes/Page');
+    var alertify = require('alertify');
 
+    var Page = require('routes/Page');
     var FieldEditor = require('objects/FieldEditor');
     var FieldCollection = require('objects/FieldCollection');
-
     var Client = require('api/Client');
 
     var Train = Class.create(Page, {
@@ -35,8 +35,12 @@ define(function(require) {
                 var $this = $(this);
                 $this.attr("disabled", true);
                 Client.learn(modelConfig.getConfig(), self.fieldCollection.getData(), function(err, resp) {
-                    console.log(resp);
                     $this.attr("disabled", false);
+                    if (err) {
+                        return alertify.error('Error happened: ' + JSON.stringify(err.data));
+                    }
+                    console.log(resp);
+                    alertify.success('Train completed successfully');
                 });
             });
         }

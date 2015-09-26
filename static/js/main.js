@@ -8,7 +8,8 @@ require.config({
         tagsinput: "lib/bootstrap-tagsinput",
         prototype: "lib/prototype",
         signals: "lib/signals.min",
-        handlebars: "lib/handlebars.runtime-v4.0.2"
+        handlebars: "lib/handlebars.runtime-v4.0.2",
+        alertify: "lib/alertify.min"
     },
     shim: {
         'jquery': {
@@ -37,14 +38,18 @@ require.config({
         },
         handlebars: {
             exports: 'Handlebars'
+        },
+        alertify: {
+            exports: 'alertify'
         }
     }
 });
 
 define(function(require) {
     var $ = require('jquery');
-    var PerceptronModelConfig = require('objects/conf/PerceptronModelConfig');
+    var alertify = require('alertify');
 
+    var PerceptronModelConfig = require('objects/conf/PerceptronModelConfig');
     var Train = require('routes/Train');
     var Recognize = require('routes/Recognize');
 
@@ -79,6 +84,27 @@ define(function(require) {
 
         return false;
     });
+
+    $('.save-button').click(function() {
+        modelConfig.save();
+        //trainPage.fieldCollection.save();
+        alertify.success('Saved');
+        return false;
+    });
+
+
+    if (modelConfig.checkLocalStorage() || trainPage.fieldCollection.checkLocalStorage()) {
+        alertify.confirm("There are saved data. Do you want to restore it?").set('title', "Restore data").set('labels', {
+            ok: 'Yes',
+            cancel: 'No'
+        }).set('onok', function() {
+            modelConfig.restore();
+            //trainPage.fieldCollection.restore();
+        }).set('oncancel', function() {
+            modelConfig.removeSaved();
+            trainPage.fieldCollection.removeSaved();
+        });
+    }
 
 
     window.DEBUG = true;

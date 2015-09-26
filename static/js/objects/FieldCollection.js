@@ -16,13 +16,21 @@ define(function(require) {
 
         fields: [],
 
+        LocalStorageKey: 'fieldsCollection',
+
         initialize: function ($root) {
             this.$root = $root;
         },
 
-        addField: function(field) {
-            field.setTableElem(field.getTableElem().clone(true));
-            field.setLabelElem(field.getLabelElem().clone(true));
+        addField: function(field, deleteExisting) {
+            var newTable = field.getTableElem().clone(true);
+            var newLabel = field.getLabelElem().clone(true);
+            if (deleteExisting) {
+                field.removeTableElem();
+                field.removeLabelElem();
+            }
+            field.setTableElem(newTable);
+            field.setLabelElem(newLabel);
             this.fields.push(field);
             var id = this.fields.length - 1;
             this.renderFieldCard(field, id);
@@ -35,6 +43,7 @@ define(function(require) {
             };
             var templ = Templates['field-card']();
             var $templ = $(templ);
+            field.$root = $templ;
             _.forOwn(data, function(value, key) {
                 $templ.find('#__' + key + '__').replaceWith(value);
             });
@@ -59,6 +68,30 @@ define(function(require) {
                 });
             });
             return arr;
+        },
+
+        save: function() {
+            window.localStorage.setItem(this.LocalStorageKey, JSON.stringify(this.getData()));
+        },
+
+        restore: function() {
+            var self = this;
+            var data = window.localStorage.getItem(this.LocalStorageKey);
+            data = JSON.parse(data);
+            _.forEach(data, function(d) {
+                var f = new Field(parseInt(Math.sqrt(d.input.length)), undefined, true, ['table', 'table-bordered']);
+                f.disable();
+                self.addField(f, true);
+            });
+        },
+
+        checkLocalStorage: function() {
+            var data = window.localStorage.getItem(this.LocalStorageKey);
+            return !!data;
+        },
+
+        removeSaved: function() {
+            window.localStorage.removeItem(this.LocalStorageKey);
         }
     });
 });

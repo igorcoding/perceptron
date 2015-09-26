@@ -50,7 +50,8 @@ define(function(require) {
 
         applyConfig: function(config) {
             var values = this.$INPUTS;
-            this._setInputs(config.inputs, true);
+            this.size = parseInt(Math.sqrt(config.inputs));
+            this._setInputs(config.inputs);
             this._setOutputs(config.outputs);
             values.learningRate.val(config.learningRate || 0.1);
             values.threshold.val(config.threshold || 0);
@@ -58,6 +59,9 @@ define(function(require) {
         },
 
         _setInputs: function(inputs, noFire) {
+            if (this.$ELEMS) {
+                this.$ELEMS.sizeChangerText.val(this.size || 3);
+            }
             this.$INPUTS.inputs.val(inputs || 1);
             if (!noFire) {
                 this._fireSizeChanged();

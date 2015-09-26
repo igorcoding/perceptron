@@ -8,6 +8,8 @@ define(function(require) {
 
         INPUTS: {},
 
+        LocalStorageKey: "modelConfig",
+
         initialize: function(initialConfig) {
             this.config = initialConfig;
             this._jqFind('INPUTS');
@@ -20,6 +22,28 @@ define(function(require) {
 
         applyConfig: function(config) {
             throw "not implemented";
+        },
+
+        save: function() {
+            var config = this.getConfig();
+            window.localStorage.setItem(this.LocalStorageKey, JSON.stringify(config));
+        },
+
+        restore: function() {
+            var config = window.localStorage.getItem(this.LocalStorageKey);
+            config = JSON.parse(config);
+            if (config) {
+                this.applyConfig(config);
+            }
+        },
+
+        checkLocalStorage: function() {
+            var config = window.localStorage.getItem(this.LocalStorageKey);
+            return !!config;
+        },
+
+        removeSaved: function() {
+            window.localStorage.removeItem(this.LocalStorageKey);
         }
     });
 
