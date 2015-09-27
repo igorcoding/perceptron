@@ -1,25 +1,8 @@
 <table class="report-table table table-bordered">
-    <tr>
-        {{#each iterations}}
-            <td>{{this.id}}</td>
-        {{/each}}
-    </tr>
-    <tr>
-        {{#each iterations}}
-            <td>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Weight</th>
-                        <th>Value</th>
-                    </tr>
-                    {{#each this.weights}}
-                        <tr>
-                            <td>w<sub>{{@index}}</sub></td>
-                            <td>{{this}}</td>
-                        </tr>
-                    {{/each}}
-                </table>
-            </td>
-        {{/each}}
-    </tr>
+    {{#each iterations}}
+        <tr>
+            <td>w<sub>{{@index}}</sub></td>
+            <td><div id="graph-weights-w{{@index}}" class="graph-weights"></div></td>
+        </tr>
+    {{/each}}
 </table>

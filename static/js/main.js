@@ -9,7 +9,8 @@ require.config({
         prototype: "lib/prototype",
         signals: "lib/signals.min",
         handlebars: "lib/handlebars.runtime-v4.0.2",
-        alertify: "lib/alertify.min"
+        alertify: "lib/alertify.min",
+        flot: "lib/jquery.flot.min"
     },
     shim: {
         'jquery': {
@@ -41,6 +42,12 @@ require.config({
         },
         alertify: {
             exports: 'alertify'
+        },
+        flot: {
+            deps: [
+                'jquery'
+            ],
+            exports: 'flot'
         }
     }
 });
@@ -61,7 +68,7 @@ define(function(require) {
     window.modelConfig = new PerceptronModelConfig({
         inputs: 9,
         outputs: 1,
-        iterations: 10000
+        iterations: 100
     });
 
     window.router = new Router({
