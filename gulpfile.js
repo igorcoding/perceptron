@@ -23,7 +23,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('sass', function () {
-    gulp.src(staticFile('sass/**/*.scss'))
+    return gulp.src(staticFile('sass/**/*.scss'))
         .pipe(plumber())
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest(staticFile('css')));
@@ -44,7 +44,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('templates', function(){
-    gulp.src(staticFile('templates/**/*.hbs'))
+    return gulp.src(staticFile('templates/**/*.hbs'))
         .pipe(plumber())
         .pipe(handlebars({
             handlebars: require('handlebars')

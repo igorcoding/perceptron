@@ -13,17 +13,15 @@ define(function(require) {
         },
 
         hide: function() {
-            console.log('hide');
-            //if (this.isVisible()) {
+            if (this.isVisible()) {
                 this.$root.hide();
-            //}
+            }
         },
 
         show: function() {
-            console.log('show');
-            //if (!this.isVisible()) {
+            if (!this.isVisible()) {
                 this.$root.show();
-            //}
+            }
         }
     });
 });

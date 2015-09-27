@@ -77,6 +77,16 @@ html, body {
     width: 100%;
 }
 
-.recognize-page {
+.recognize-page, .report-page {
     display: none;
+}
+
+.report-table-wrapper {
+    width: 100%;
+    overflow: auto;
+    margin-top: 20px;
+}
+
+.report-table {
+
 }

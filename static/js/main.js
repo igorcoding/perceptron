@@ -52,6 +52,8 @@ define(function(require) {
     var PerceptronModelConfig = require('objects/conf/PerceptronModelConfig');
     var Train = require('routes/Train');
     var Recognize = require('routes/Recognize');
+    var Report = require('routes/Report');
+    var Router = require('routes/Router');
     var Templates = require('util/Templates');
 
     var $weightsPanel = $('.side-window__weights__table');
@@ -62,17 +64,22 @@ define(function(require) {
         iterations: 10000
     });
 
-    window.trainPage = new Train($('.learn-page'), modelConfig);
-    window.recognizePage = new Recognize($('.recognize-page'), modelConfig);
+    window.router = new Router({
+        train: new Train($('.learn-page'), modelConfig),
+        recognize: new Recognize($('.recognize-page'), modelConfig),
+        report: new Report($('.report-page'), modelConfig)
+    });
 
-    trainPage.onTrained = function(data) {
+    router.get('train').onTrained = function(data) {
         var templ = Templates['weights-table'](data);
         $weightsPanel.html(templ);
+
+        router.get('report').displayData(data);
     };
 
     modelConfig.sizeChanged.add(function(data) {
-        trainPage.sizeChanged(data);
-        recognizePage.sizeChanged(data);
+        router.get('train').sizeChanged(data);
+        router.get('recognize').sizeChanged(data);
     });
 
     $('.page-switcher').find('a').click(function() {
@@ -82,14 +89,7 @@ define(function(require) {
         li.addClass('active');
 
         var selectedPage = $this.data('page');
-        if (selectedPage == 'train') {
-            recognizePage.hide();
-            trainPage.show();
-        } else if (selectedPage == 'recognize') {
-            trainPage.hide();
-            recognizePage.show();
-        }
-
+        router.show(selectedPage);
         return false;
     });
 
@@ -101,7 +101,7 @@ define(function(require) {
     });
 
 
-    if (modelConfig.checkLocalStorage() || trainPage.fieldCollection.checkLocalStorage()) {
+    if (modelConfig.checkLocalStorage() || router.get('train').fieldCollection.checkLocalStorage()) {
         alertify.confirm("There are saved data. Do you want to restore it?").set('title', "Restore data").set('labels', {
             ok: 'Yes',
             cancel: 'No'
@@ -110,7 +110,7 @@ define(function(require) {
             //trainPage.fieldCollection.restore();
         }).set('oncancel', function() {
             modelConfig.removeSaved();
-            trainPage.fieldCollection.removeSaved();
+            router.get('train').fieldCollection.removeSaved();
         });
     }
 
