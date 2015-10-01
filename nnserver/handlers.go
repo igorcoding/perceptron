@@ -54,7 +54,7 @@ func (self *nnServer) apiLearn(w http.ResponseWriter, r *http.Request) {
 		self.log.Error(err.Error())
 	}
 
-	weights, err := net.Train(req.TrainData)
+	weights, errors, err := net.Train(req.TrainData)
 	if err != nil {
 		self.log.Error(err.Error())
 		return
@@ -63,6 +63,7 @@ func (self *nnServer) apiLearn(w http.ResponseWriter, r *http.Request) {
 	data := self.makeData()
 	data["weights"] = net.W
 	data["iterations"] = weights
+	data["iterations_errors"] = errors
 	resp := ApiResponse{
 		Status: "ok",
 		Data: data,

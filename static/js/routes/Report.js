@@ -28,26 +28,30 @@ define(function(require) {
             var templ = Templates['weights-report-table'](data);
             this.reportTableWrapper.html(templ);
 
-            var ymin = -1.0, ymax = 1.0;
+            var ymin = _.min(_.map(data.iterations, function(w) { return _.min(w) }));
+            var ymax = _.max(_.map(data.iterations, function(w) { return _.max(w) }));
 
-            ymin = _.min(_.map(data.iterations, function(w) { return _.min(w) }));
-            ymax = _.max(_.map(data.iterations, function(w) { return _.max(w) }));
-
-            var plotOptions = {
+            var defaultOptions = {
                 series: {
                     lines: { show: true },
                     points: { show: false }
-                },
+                }
+            };
+            var plotOptions = _.assign({}, defaultOptions, {
                 yaxis: {
                     min: ymin - 1.0,
                     max: ymax + 1.0
                 }
-            };
+            });
             var X = _.range(1, data.iterations[0].length + 1);
             _.forEach(data.iterations, function(w, i) {
                 var d = _.zip(X, w);
                 $.plot('#graph-weights-w' + i, [d], plotOptions);
             });
+
+
+            var d = _.zip(X, data.iterations_errors);
+            $.plot('.errors-table', [d], defaultOptions);
         }
     });
 
